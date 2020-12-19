@@ -1,4 +1,4 @@
-module logging
+module github.com/pamayung/logging
 
 go 1.15
 

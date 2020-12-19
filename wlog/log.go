@@ -19,9 +19,9 @@ var (
 	mNext          int64
 	mFileName      string
 	mSDF           string
-	SDF_MINUTE     string = "20060102150405"
-	SDF_HOUR       string = "200601021504"
-	SDF_MILLIS     string = "15:04:05"
+	mSDF_MINUTE    string = "20060102150405"
+	mSDF_HOUR      string = "200601021504"
+	mSDF_MILLIS    string = "15:04:05"
 	mWriter               = bufio.NewWriter(nil)
 	mMessageList   []string
 	mTopSize       int
@@ -45,11 +45,11 @@ func Log(sName string, sDirectory string, iFileInterval int) {
 	switch iFileInterval {
 	case 1:
 		mDuration = 60000
-		mSDF = SDF_MINUTE
+		mSDF = mSDF_MINUTE
 		break
 	case 2:
 		mDuration = 3600000
-		mSDF = SDF_HOUR
+		mSDF = mSDF_HOUR
 		break
 	default:
 		break
@@ -144,7 +144,7 @@ func createFileName(iTime int64) string {
 	return fileName.String()
 }
 
-func GetFileThread() {
+func getFileThread() {
 	running := true
 
 	for running {
@@ -158,7 +158,7 @@ func GetFileThread() {
 	}
 }
 
-func GetWriteThread() {
+func getWriteThread() {
 	running := true
 
 	for running {
@@ -227,7 +227,7 @@ func write(sLevel string, sTag string, sMeta string, sMessage string) {
 
 	sb.WriteString(sLevel)
 	sb.WriteString(" ")
-	sb.WriteString(t.Format(SDF_MILLIS))
+	sb.WriteString(t.Format(mSDF_MILLIS))
 	sb.WriteString("   | ")
 	sb.WriteString(sTag)
 	sb.WriteString("|")
@@ -256,8 +256,8 @@ func Start() {
 		}
 
 		setRunning(true)
-		go GetFileThread()
-		go GetWriteThread()
+		go getFileThread()
+		go getWriteThread()
 
 		fmt.Println("logging start")
 	}
